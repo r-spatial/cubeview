@@ -53,7 +53,7 @@ move mouse down/up to zoom the cube.
 }}
 
 \examples{
-\dontrun{
+if (interactive()) {
 library(raster)
 
 kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")

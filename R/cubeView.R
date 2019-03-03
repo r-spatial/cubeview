@@ -34,7 +34,7 @@
 #' Stephan Woellauer and Tim Appelhans
 #'
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' library(raster)
 #'
 #' kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
