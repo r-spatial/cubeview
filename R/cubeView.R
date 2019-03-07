@@ -46,6 +46,13 @@
 #' cubeView(kiliNDVI, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
 #' }
 #'
+#' @importFrom raster as.matrix ncol nrow nlayers
+#' @importFrom lattice level.colors do.breaks draw.colorkey
+#' @importFrom grDevices col2rgb png dev.off rgb
+#' @importFrom base64enc base64encode
+#' @importFrom htmltools htmlDependency
+#' @importFrom htmlwidgets createWidget sizingPolicy shinyWidgetOutput shinyRenderWidget
+#'
 #' @export cubeView
 #' @name cubeView
 
