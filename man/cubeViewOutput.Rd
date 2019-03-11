@@ -2,16 +2,49 @@
 % Please edit documentation in R/cubeView.R
 \name{cubeViewOutput}
 \alias{cubeViewOutput}
-\title{Widget output function for use in Shiny}
+\alias{renderCubeView}
+\title{Widget output/render function for use in Shiny}
 \usage{
 cubeViewOutput(outputId, width = "100\%", height = "400px")
+
+renderCubeView(expr, env = parent.frame(), quoted = FALSE)
 }
 \arguments{
 \item{outputId}{Output variable to read from}
 
 \item{width, height}{the width and height of the map
 (see \code{\link{shinyWidgetOutput}})}
+
+\item{expr}{An expression that generates an HTML widget}
+
+\item{env}{The environment in which to evaluate expr}
+
+\item{quoted}{Is expr a quoted expression (with quote())?
+This is useful if you want to save an expression in a variable}
 }
 \description{
-Widget output function for use in Shiny
+Widget output/render function for use in Shiny
+}
+\examples{
+if (interactive()) {
+  library(shiny)
+  library(raster)
+
+  kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
+  kiliNDVI <- stack(kili_data)
+
+  cube = cubeView(kiliNDVI)
+
+  ui = fluidPage(
+    cubeViewOutput("cube", width = 300, height = 300)
+  )
+
+  server = function(input, output, session) {
+    output$cube <- renderCubeView(cube)
+  }
+
+  shinyApp(ui, server)
+
+}
+
 }

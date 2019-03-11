@@ -1,49 +1,57 @@
 #' View a RasterStack or RasterBrick as 3-dimensional data cube.
 #'
 #' @description
-#' Create a 3D data cube from a RasterStack or RasterBrick. The cube can be
-#' freely rotated so that Hovmoller views of x - z and y - z are possible.
+#' Creates a 3D data cube view of a RasterStack/Brick.
+#' Slices through each dimension (x/y/z) are mapped to the visible sides of the cube.
+#' The cube can be freely rotated. Zooming and panning can be used to focus on
+#' different areas of the cube.
+#'
+#' See Details for information on how to control the location of the slices and all
+#' other available keyborad and mouse guestures to control the cube.
 #'
 #' @param x a RasterStack or RasterBrick
 #' @param at the breakpoints used for the visualisation. See
 #' \code{\link{levelplot}} for details.
-#' @param col.regions color (palette).See \code{\link{levelplot}} for details.
+#' @param col.regions color (palette). See \code{\link{levelplot}} for details.
 #' @param na.color color for missing values.
 #' @param legend logical. Whether to plot a legend.
-#' @param ... currently not used.
 #'
 #' @details
-#' The visible layers are alterable by keys: \cr
+#' The location of the slices can be controlled by keys: \cr
 #' x-axis: LEFT / RIGHT arrow key \cr
 #' y-axis: DOWN / UP arrow key \cr
 #' z-axis: PAGE_DOWN / PAGE_UP key \cr
 #'
-#' Note: In RStudio cubeView may show a blank viewer window. In this case open the view in
-#' a web-browser (RStudio button at viewer: "show in new window").
-#'
-#' Note: Because of key focus issues key-press-events are not always
-#' recognised within RStudio at Windows. In this case open the view in
-#' a web-browser (RStudio button at viewer: "show in new window").
-#'
-#' Press and hold left mouse-button to rotate the cube.
-#' Press and hold right mouse-button to move the cube.
+#' \emph{Other controls:} \cr
+#' Press and hold left mouse-button to rotate the cube. \cr
+#' Press and hold right mouse-button to move the cube. \cr
 #' Spin mouse-wheel or press and hold middle mouse-button and
-#' move mouse down/up to zoom the cube.
+#' move mouse down/up to zoom the cube. \cr
+#' Press space bar to show/hide slice position guides. \cr
+#'
+#' \emph{Note:} \cr
+#' In RStudio cubeView may show a blank viewer window. In this case open the view in
+#' a web-browser (RStudio button at viewer: "show in new window").
+#'
+#' \emph{Note:} \cr
+#' Because of key focus issues key-press-events may not always
+#' recognised within RStudio on Windows. In this case open the view in
+#' a web-browser (RStudio button at viewer: "show in new window").
 #'
 #' @author
 #' Stephan Woellauer and Tim Appelhans
 #'
 #' @examples
 #' if (interactive()) {
-#' library(raster)
+#'   library(raster)
 #'
-#' kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
-#' kiliNDVI <- stack(kili_data)
+#'   kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
+#'   kiliNDVI <- stack(kili_data)
 #'
-#' cubeView(kiliNDVI)
+#'   cubeView(kiliNDVI)
 #'
-#' clr <- viridisLite::viridis
-#' cubeView(kiliNDVI, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
+#'   clr <- viridisLite::viridis
+#'   cubeView(kiliNDVI, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
 #' }
 #'
 #' @importFrom raster as.matrix ncol nrow nlayers
@@ -52,6 +60,7 @@
 #' @importFrom base64enc base64encode
 #' @importFrom htmltools htmlDependency
 #' @importFrom htmlwidgets createWidget sizingPolicy shinyWidgetOutput shinyRenderWidget
+#' @importFrom viridisLite inferno
 #'
 #' @export cubeView
 #' @name cubeView
@@ -111,65 +120,65 @@ cubeView <- function(x,
 
 }
 
-# ' View a cube of 3-dimensional data filled with points (voxels).
-# '
-# ' A variation of Hovmoeller diagram: Each voxel is colored with a RGB-color (or grey) value.
-# '
-# ' @param x_size integer. size of x-dimension
-# '
-# ' @param y_size integer. size of y-dimension
-# '
-# ' @param z_size integer. size of z-dimension
-# '
-# ' @param grey optional integer vector with 0 <= value <= 255.
-# '
-# ' @param red optional integer vector with 0 <= value <= 255.
-# '
-# ' @param green optional integer vector with 0 <= value <= 255.
-# '
-# ' @param blue optional integer vector with 0 <= value <= 255.
-# '
-# ' @details
-# '
-# ' The cube faces show a selectable layer of data within the cube.
-# '
-# ' The visible layers are alterable by keys:
-# '
-# ' x-axis: LEFT / RIGHT arrow key
-# '
-# ' y-axis: DOWN / UP arrow key
-# '
-# ' z-axis: PAGE_DOWN / PAGE_UP key
-# '
-# ' Note: Because of key focus issues key-press-events are not always
-# ' recognised within RStudio at Windows.
-# ' In this case open the view in a web-browser (RStudio button: "show in new window").
-# '
-# '
-# ' Press and hold left mouse-button to rotate the cube.
-# '
-# ' Press and hold right mouse-button to move the cube.
-# '
-# ' Spin mouse-wheel or press and hold middle mouse-button and move mouse
-# ' down/up to zoom the cube.
-# '
-# ' Press SPACE to toggle showing cross section lines on the cube.
-# '
-# ' The color resp. grey vectors contain sequentially values of each voxel.
-# ' So each vector is length == x_size * y_size * z_size.
-# ' Color component values overwrite grey values.
-# '
-# ' Sequence of coordinates (x,y,z) for values in vectors:
-# '
-# ' (1,1,1), (2,1,1), (3,1,1), ... (1,2,1), (2,2,1), (3,2,1), ... (1,1,2), (2,1,2), (3,1,2), ...
-# '
-# '
-# ' @author
-# ' Stephan Woellauer
-# '
-# ' @import htmlwidgets
-# '
-# ' @export
+# #' View a cube of 3-dimensional data filled with points (voxels).
+# #'
+# #' A variation of Hovmoeller diagram: Each voxel is colored with a RGB-color (or grey) value.
+# #'
+# #' @param x_size integer. size of x-dimension
+# #'
+# #' @param y_size integer. size of y-dimension
+# #'
+# #' @param z_size integer. size of z-dimension
+# #'
+# #' @param grey optional integer vector with 0 <= value <= 255.
+# #'
+# #' @param red optional integer vector with 0 <= value <= 255.
+# #'
+# #' @param green optional integer vector with 0 <= value <= 255.
+# #'
+# #' @param blue optional integer vector with 0 <= value <= 255.
+# #'
+# #' @details
+# #'
+# #' The cube faces show a selectable layer of data within the cube.
+# #'
+# #' The visible layers are alterable by keys:
+# #'
+# #' x-axis: LEFT / RIGHT arrow key
+# #'
+# #' y-axis: DOWN / UP arrow key
+# #'
+# #' z-axis: PAGE_DOWN / PAGE_UP key
+# #'
+# #' Note: Because of key focus issues key-press-events are not always
+# #' recognised within RStudio at Windows.
+# #' In this case open the view in a web-browser (RStudio button: "show in new window").
+# #'
+# #'
+# #' Press and hold left mouse-button to rotate the cube.
+# #'
+# #' Press and hold right mouse-button to move the cube.
+# #'
+# #' Spin mouse-wheel or press and hold middle mouse-button and move mouse
+# #' down/up to zoom the cube.
+# #'
+# #' Press SPACE to toggle showing cross section lines on the cube.
+# #'
+# #' The color resp. grey vectors contain sequentially values of each voxel.
+# #' So each vector is length == x_size * y_size * z_size.
+# #' Color component values overwrite grey values.
+# #'
+# #' Sequence of coordinates (x,y,z) for values in vectors:
+# #'
+# #' (1,1,1), (2,1,1), (3,1,1), ... (1,2,1), (2,2,1), (3,2,1), ... (1,1,2), (2,1,2), (3,1,2), ...
+# #'
+# #'
+# #' @author
+# #' Stephan Woellauer
+# #'
+# #' @import htmlwidgets
+# #'
+# #' @export
 cubeViewRaw <- function(grey = NULL,
                         red = NULL,
                         green = NULL,
@@ -238,25 +247,48 @@ cubeViewRaw <- function(grey = NULL,
   )
 }
 
-#' Widget output function for use in Shiny
+#' Widget output/render function for use in Shiny
 #'
 #' @param outputId Output variable to read from
 #' @param width,height the width and height of the map
 #' (see \code{\link{shinyWidgetOutput}})
 #'
+#' @examples
+#' if (interactive()) {
+#'   library(shiny)
+#'   library(raster)
+#'
+#'   kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
+#'   kiliNDVI <- stack(kili_data)
+#'
+#'   cube = cubeView(kiliNDVI)
+#'
+#'   ui = fluidPage(
+#'     cubeViewOutput("cube", width = 300, height = 300)
+#'   )
+#'
+#'   server = function(input, output, session) {
+#'     output$cube <- renderCubeView(cube)
+#'   }
+#'
+#'   shinyApp(ui, server)
+#'
+#' }
+#'
+#' @name cubeViewOutput
 #' @export
 cubeViewOutput <- function(outputId, width = '100%', height = '400px'){
   htmlwidgets::shinyWidgetOutput(outputId, 'cubeView',
-                                 width, height, package = 'cubeview')
+                                 width = width, height = height,
+                                 package = 'cubeview')
 }
 
-#' Widget render function for use in Shiny
-#'
 #' @param expr An expression that generates an HTML widget
 #' @param env The environment in which to evaluate expr
 #' @param quoted Is expr a quoted expression (with quote())?
 #' This is useful if you want to save an expression in a variable
 #'
+#' @rdname cubeViewOutput
 #' @export
 renderCubeView <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) } # force quoted

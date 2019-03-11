@@ -17,35 +17,42 @@ cubeview(x, at, col.regions = viridisLite::inferno,
 \item{at}{the breakpoints used for the visualisation. See
 \code{\link{levelplot}} for details.}
 
-\item{col.regions}{color (palette).See \code{\link{levelplot}} for details.}
+\item{col.regions}{color (palette). See \code{\link{levelplot}} for details.}
 
 \item{na.color}{color for missing values.}
 
 \item{legend}{logical. Whether to plot a legend.}
-
-\item{...}{currently not used.}
 }
 \description{
-Create a 3D data cube from a RasterStack or RasterBrick. The cube can be
-freely rotated so that Hovmoller views of x - z and y - z are possible.
+Creates a 3D data cube view of a RasterStack/Brick.
+Slices through each dimension (x/y/z) are mapped to the visible sides of the cube.
+The cube can be freely rotated. Zooming and panning can be used to focus on
+different areas of the cube.
+
+See Details for information on how to control the location of the slices and all
+other available keyborad and mouse guestures to control the cube.
 }
 \details{
-The visible layers are alterable by keys: \cr
+The location of the slices can be controlled by keys: \cr
 x-axis: LEFT / RIGHT arrow key \cr
 y-axis: DOWN / UP arrow key \cr
 z-axis: PAGE_DOWN / PAGE_UP key \cr
 
-Note: In RStudio cubeView may show a blank viewer window. In this case open the view in
-a web-browser (RStudio button at viewer: "show in new window").
-
-Note: Because of key focus issues key-press-events are not always
-recognised within RStudio at Windows. In this case open the view in
-a web-browser (RStudio button at viewer: "show in new window").
-
-Press and hold left mouse-button to rotate the cube.
-Press and hold right mouse-button to move the cube.
+\emph{Other controls:} \cr
+Press and hold left mouse-button to rotate the cube. \cr
+Press and hold right mouse-button to move the cube. \cr
 Spin mouse-wheel or press and hold middle mouse-button and
-move mouse down/up to zoom the cube.
+move mouse down/up to zoom the cube. \cr
+Press space bar to show/hide slice position guides. \cr
+
+\emph{Note:} \cr
+In RStudio cubeView may show a blank viewer window. In this case open the view in
+a web-browser (RStudio button at viewer: "show in new window").
+
+\emph{Note:} \cr
+Because of key focus issues key-press-events may not always
+recognised within RStudio on Windows. In this case open the view in
+a web-browser (RStudio button at viewer: "show in new window").
 }
 \section{Functions}{
 \itemize{
@@ -54,15 +61,15 @@ move mouse down/up to zoom the cube.
 
 \examples{
 if (interactive()) {
-library(raster)
+  library(raster)
 
-kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
-kiliNDVI <- stack(kili_data)
+  kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
+  kiliNDVI <- stack(kili_data)
 
-cubeView(kiliNDVI)
+  cubeView(kiliNDVI)
 
-clr <- viridisLite::viridis
-cubeView(kiliNDVI, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
+  clr <- viridisLite::viridis
+  cubeView(kiliNDVI, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
 }
 
 }
