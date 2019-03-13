@@ -16,7 +16,7 @@ Maintainer: Tim Appelhans <tim.appelhans@gmail.com>
 Description: Creates a 3D data cube view of a RasterStack/Brick, typically a 
     collection/array of RasterLayers (along z-axis) with the same geographical 
     extent (x and y dimensions) and resolution, provided by package 'raster'. 
-    Slices through each dimension (x/y/z), freely adjustable in loacation, 
+    Slices through each dimension (x/y/z), freely adjustable in location, 
     are mapped to the visible sides of the cube. The cube can be freely rotated. 
     Zooming and panning can be used to focus on different areas of the cube.
 License: MIT + file LICENSE
