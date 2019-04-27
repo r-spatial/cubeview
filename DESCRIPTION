@@ -11,7 +11,10 @@ Authors@R:
       person(given = "Stefan",
              family = "Woellauer",
              role = "aut",
-             email = "stephan.woellauer@geo.uni-marburg.de"))
+             email = "stephan.woellauer@geo.uni-marburg.de"),
+      person("three.js authors", 
+             role = c("ctb", "cph"), 
+             comment = "three.js library"))
 Maintainer: Tim Appelhans <tim.appelhans@gmail.com>
 Description: Creates a 3D data cube view of a RasterStack/Brick, typically a 
     collection/array of RasterLayers (along z-axis) with the same geographical 
