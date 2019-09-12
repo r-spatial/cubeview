@@ -74,7 +74,11 @@ cubeView <- function(x,
   stopifnot(inherits(x, "RasterStack") | inherits(x, "RasterBrick"))
 
   #v <- raster::as.matrix(flip(x, direction = "y"))
-  v <- raster::as.matrix(x)
+  # v <- raster::as.matrix(x)
+
+  ### FIXME HERE: need to make the next line much faster
+  x = flip(x, "y")
+  v = do.call(rbind, lapply(seq(nlayers(x)), function(i) t(as.matrix(x[[i]]))))
   if (missing(at)) at <- lattice::do.breaks(range(v, na.rm = TRUE), 256)
   cols <- lattice::level.colors(v,
                                 at = at,
@@ -84,8 +88,8 @@ cubeView <- function(x,
   tst <- grDevices::col2rgb(cols, alpha = TRUE)
 
   x_size <- raster::ncol(x)
-  y_size <- raster::nrow(x)
-  z_size <- raster::nlayers(x)
+  z_size <- raster::nrow(x)
+  y_size <- raster::nlayers(x)
 
   leg_fl <- NULL
 
@@ -93,7 +97,10 @@ cubeView <- function(x,
     ## unique temp dir
     dir <- tempfile()
     dir.create(dir)
-    rng <- range(x[], na.rm = TRUE)
+    # rng <- range(x[], na.rm = TRUE)
+    mn = min(sapply(lapply(seq(nlayers(x)), function(i) slot(x[[i]], "data")), slot, "min"))
+    mx = max(sapply(lapply(seq(nlayers(x)), function(i) slot(x[[i]], "data")), slot, "max"))
+    rng = c(mn, mx)
     if (missing(at)) at <- lattice::do.breaks(rng, 256)
     leg_fl <- paste0(dir, "/legend", ".png")
     grDevices::png(leg_fl, height = 200, width = 80, units = "px",
