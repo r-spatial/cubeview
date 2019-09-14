@@ -9,7 +9,7 @@
 #' See Details for information on how to control the location of the slices and all
 #' other available keyborad and mouse guestures to control the cube.
 #'
-#' @param x a RasterStack or RasterBrick
+#' @param x a file name, stars object, RasterStack or RasterBrick
 #' @param at the breakpoints used for the visualisation. See
 #' \code{\link{levelplot}} for details.
 #' @param col.regions color (palette). See \code{\link{levelplot}} for details.
@@ -44,14 +44,23 @@
 #' @examples
 #' if (interactive()) {
 #'   library(raster)
+#'   library(stars)
 #'
+#'   ## directly from file
 #'   kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
-#'   kiliNDVI <- stack(kili_data)
+#'   cubeview(kili_data)
 #'
-#'   cubeView(kiliNDVI)
+#'   ## stars object
+#'   kili_strs = read_stars(kili_data)
+#'   cubeview(kili_strs)
 #'
+#'   ## rsater stack (also works with brick)
+#'   kili_rstr <- stack(kili_data)
+#'   cubeview(kili_rstr)
+#'
+#'   ## use different color palette and set breaks
 #'   clr <- viridisLite::viridis
-#'   cubeView(kiliNDVI, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
+#'   cubeview(kili_data, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
 #' }
 #'
 #' @importFrom raster as.matrix ncol nrow nlayers
@@ -62,34 +71,68 @@
 #' @importFrom htmlwidgets createWidget sizingPolicy shinyWidgetOutput shinyRenderWidget
 #' @importFrom viridisLite inferno
 #'
-#' @export cubeView
-#' @name cubeView
+#' @export cubeview
+#' @name cubeview
+cubeview = function(x, ...) UseMethod("cubeview")
 
-cubeView <- function(x,
-                     at,
-                     col.regions = viridisLite::inferno,
-                     na.color = "#BEBEBE",
-                     legend = TRUE) {
+#' @name cubeview
+#' @export
+cubeview.character = function(x,
+                              ...,
+                              at,
+                              col.regions = viridisLite::inferno,
+                              na.color = "#BEBEBE",
+                              legend = TRUE) {
 
-  stopifnot(inherits(x, "RasterStack") | inherits(x, "RasterBrick"))
+  if (!file.exists(x[1])) stop(sprintf("cannot find file %s", x))
 
-  #v <- raster::as.matrix(flip(x, direction = "y"))
-  # v <- raster::as.matrix(x)
+  strs = stars::read_stars(x)
+  cubeview(strs,
+           ...,
+           at = at,
+           col.regions = col.regions,
+           na.color = na.color,
+           legend = legend)
+}
 
-  ### FIXME HERE: need to make the next line much faster
-  x = flip(x, "y")
-  v = do.call(rbind, lapply(seq(nlayers(x)), function(i) t(as.matrix(x[[i]]))))
-  if (missing(at)) at <- lattice::do.breaks(range(v, na.rm = TRUE), 256)
+#' @name cubeview
+#' @export
+cubeview.stars <- function(x,
+                           ...,
+                           at,
+                           col.regions = viridisLite::inferno,
+                           na.color = "#BEBEBE",
+                           legend = TRUE) {
+
+  stopifnot(inherits(x, "stars"))
+
+  ar = unclass(x[[1]]) # raw data matrix/array
+  v = do.call(rbind, lapply(seq(dim(ar)[3]), function(i) {
+    ar[, rev(seq_len(dim(ar)[2])), i]
+  }))
+  rng = range(v, na.rm = TRUE)
+  if (missing(at)) at <- lattice::do.breaks(rng, 256)
+
+  # n = 9
+  # m = grDevices::colorRamp(col.regions(n))( (1:n)/n )
+
+  # cols = colourvalues::colour_values_rgb(
+  #   v,
+  #   palette = m,
+  #   na_colour = na.color,
+  #   include_alpha = TRUE
+  # )
+
   cols <- lattice::level.colors(v,
                                 at = at,
                                 col.regions)
   cols[is.na(cols)] = na.color
-  cols = col2Hex(cols, alpha = TRUE)
-  tst <- grDevices::col2rgb(cols, alpha = TRUE)
+  # cols = col2Hex(cols, alpha = TRUE)
+  cols = grDevices::col2rgb(cols, alpha = TRUE)
 
-  x_size <- raster::ncol(x)
-  z_size <- raster::nrow(x)
-  y_size <- raster::nlayers(x)
+  x_size <- unname(dim(x)[1])
+  z_size <- unname(dim(x)[2])
+  y_size <- unname(dim(x)[3])
 
   leg_fl <- NULL
 
@@ -97,10 +140,7 @@ cubeView <- function(x,
     ## unique temp dir
     dir <- tempfile()
     dir.create(dir)
-    # rng <- range(x[], na.rm = TRUE)
-    mn = min(sapply(lapply(seq(nlayers(x)), function(i) slot(x[[i]], "data")), slot, "min"))
-    mx = max(sapply(lapply(seq(nlayers(x)), function(i) slot(x[[i]], "data")), slot, "max"))
-    rng = c(mn, mx)
+
     if (missing(at)) at <- lattice::do.breaks(rng, 256)
     leg_fl <- paste0(dir, "/legend", ".png")
     grDevices::png(leg_fl, height = 200, width = 80, units = "px",
@@ -117,15 +157,50 @@ cubeView <- function(x,
   }
 
 
-  cubeViewRaw(red = tst[1, ],
-              green = tst[2, ],
-              blue = tst[3, ],
+  cubeViewRaw(red = cols[1, ],
+              green = cols[2, ],
+              blue = cols[3, ],
               x_size = x_size,
               y_size = y_size,
               z_size = z_size,
               leg_fl = leg_fl)
 
 }
+
+#' @name cubeview
+#' @export
+cubeview.Raster = function(x,
+                           ...,
+                           at,
+                           col.regions = viridisLite::inferno,
+                           na.color = "#BEBEBE",
+                           legend = TRUE) {
+
+  if (!raster::inMemory(x)) {
+    fls = sapply(lapply(x@layers, slot, name = "file"), slot, "name")
+    if (all(duplicated(fls)[2:length(fls)])) {
+      x = fls[1]
+    } else {
+      x = stars::read_stars(fls, along = "band")
+    }
+    cubeview(x,
+             ...,
+             at = at,
+             col.regions = col.regions,
+             na.color = na.color,
+             legend = legend)
+  } else {
+    x = stars::st_as_stars(x)
+    cubeview(x,
+             ...,
+             at = at,
+             col.regions = col.regions,
+             na.color = na.color,
+             legend = legend)
+  }
+}
+
+
 
 # #' View a cube of 3-dimensional data filled with points (voxels).
 # #'
@@ -304,9 +379,8 @@ renderCubeView <- function(expr, env = parent.frame(), quoted = FALSE) {
 
 
 ## cubeview ===============================================================
-#' @describeIn cubeView alias for ease of typing
-#' @aliases cubeview
-#' @export cubeview
 
-cubeview <- cubeView
+#' @name cubeview
+#' @export
+cubeView <- cubeview
 
