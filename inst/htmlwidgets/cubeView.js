@@ -102,7 +102,7 @@ function Hovmoeller(root, json, legend_filename) {
   }
 
 	this.scene = new THREE.Scene();
-	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.001, 1000 );
 	//this.camera.position.set( 45, 35, 45 );
 	console.log(this.camera.position);
 	//this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
