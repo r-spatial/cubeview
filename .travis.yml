@@ -4,6 +4,13 @@ dist: xenial
 cache: packages
 latex: true
 
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+    packages:
+      - libudunits2-dev
+
 r:
   - release
   - devel
