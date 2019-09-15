@@ -3,11 +3,17 @@ col2Hex <- function(col, alpha = FALSE) {
 
   mat <- grDevices::col2rgb(col, alpha = TRUE)
   if (alpha) {
-    hx <- grDevices::rgb(mat[1, ]/255, mat[2, ]/255,
-                         mat[3, ]/255, mat[4, ]/255)
+    if (all(grepl("^#[0-9a-fA-F]+", col)) & nchar(col[1] == 9)) {
+      return(col)
+    } else {
+      return(grDevices::rgb(mat[1, ]/255, mat[2, ]/255,
+                            mat[3, ]/255, mat[4, ]/255))
+    }
   } else {
-    hx <- grDevices::rgb(mat[1, ]/255, mat[2, ]/255, mat[3, ]/255)
+    if (all(grepl("^#[0-9a-fA-F]+", col)) & nchar(col[1] == 7)) {
+      return(col)
+    } else {
+      return(grDevices::rgb(mat[1, ]/255, mat[2, ]/255, mat[3, ]/255))
+    }
   }
-  return(hx)
-
 }

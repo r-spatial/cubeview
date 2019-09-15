@@ -29,7 +29,8 @@ cubeView(x, ...)
 \item{at}{the breakpoints used for the visualisation. See
 \code{\link{levelplot}} for details.}
 
-\item{col.regions}{color (palette). See \code{\link{levelplot}} for details.}
+\item{col.regions}{either a palette function or a vector of colors to be
+used for palette generation.}
 
 \item{na.color}{color for missing values.}
 

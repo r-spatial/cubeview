@@ -12,7 +12,8 @@
 #' @param x a file name, stars object, RasterStack or RasterBrick
 #' @param at the breakpoints used for the visualisation. See
 #' \code{\link{levelplot}} for details.
-#' @param col.regions color (palette). See \code{\link{levelplot}} for details.
+#' @param col.regions either a palette function or a vector of colors to be
+#'   used for palette generation.
 #' @param na.color color for missing values.
 #' @param legend logical. Whether to plot a legend.
 #' @param ... additional arguments passed on to \link[stars]{read_stars}.
@@ -107,6 +108,11 @@ cubeview.stars <- function(x,
 
   stopifnot(inherits(x, "stars"))
 
+  if (!is.function(col.regions) &
+      (is.character(col.regions) | is.numeric(col.regions))) {
+    col.regions = colorRampPalette(col2Hex(col.regions))
+  }
+
   ar = unclass(x[[1]]) # raw data matrix/array
   v = do.call(rbind, lapply(seq(dim(ar)[3]), function(i) {
     ar[, rev(seq_len(dim(ar)[2])), i]
@@ -116,7 +122,7 @@ cubeview.stars <- function(x,
 
   cuts <- cut(v, at, include.lowest = TRUE, labels = FALSE)
 
-  n = 9
+  n = 12L
   m = grDevices::colorRamp(col.regions(n))( (1:n)/n )
 
   cols = colourvalues::colour_values_rgb(
@@ -133,9 +139,11 @@ cubeview.stars <- function(x,
   # # cols = col2Hex(cols, alpha = TRUE)
   # cols = grDevices::col2rgb(cols, alpha = TRUE)
 
-  x_size <- unname(dim(x)[1])
-  z_size <- unname(dim(x)[2])
-  y_size <- unname(dim(x)[3])
+  dms = unname(dim(x))
+
+  x_size <- dms[1]
+  z_size <- dms[2]
+  y_size <- dms[3]
 
   leg_fl <- NULL
 
