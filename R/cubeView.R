@@ -15,6 +15,7 @@
 #' @param col.regions color (palette). See \code{\link{levelplot}} for details.
 #' @param na.color color for missing values.
 #' @param legend logical. Whether to plot a legend.
+#' @param ... additional arguments passed on to \link[stars]{read_stars}.
 #'
 #' @details
 #' The location of the slices can be controlled by keys: \cr
@@ -78,15 +79,15 @@ cubeview = function(x, ...) UseMethod("cubeview")
 #' @name cubeview
 #' @export
 cubeview.character = function(x,
-                              ...,
                               at,
                               col.regions = viridisLite::inferno,
                               na.color = "#BEBEBE",
-                              legend = TRUE) {
+                              legend = TRUE,
+                              ...) {
 
   if (!file.exists(x[1])) stop(sprintf("cannot find file %s", x))
 
-  strs = stars::read_stars(x)
+  strs = stars::read_stars(x, along = "band", ...)
   cubeview(strs,
            ...,
            at = at,
@@ -98,11 +99,11 @@ cubeview.character = function(x,
 #' @name cubeview
 #' @export
 cubeview.stars <- function(x,
-                           ...,
                            at,
                            col.regions = viridisLite::inferno,
                            na.color = "#BEBEBE",
-                           legend = TRUE) {
+                           legend = TRUE,
+                           ...) {
 
   stopifnot(inherits(x, "stars"))
 
@@ -113,22 +114,24 @@ cubeview.stars <- function(x,
   rng = range(v, na.rm = TRUE)
   if (missing(at)) at <- lattice::do.breaks(rng, 256)
 
-  # n = 9
-  # m = grDevices::colorRamp(col.regions(n))( (1:n)/n )
+  cuts <- cut(v, at, include.lowest = TRUE, labels = FALSE)
 
-  # cols = colourvalues::colour_values_rgb(
-  #   v,
-  #   palette = m,
-  #   na_colour = na.color,
-  #   include_alpha = TRUE
-  # )
+  n = 9
+  m = grDevices::colorRamp(col.regions(n))( (1:n)/n )
 
-  cols <- lattice::level.colors(v,
-                                at = at,
-                                col.regions)
-  cols[is.na(cols)] = na.color
-  # cols = col2Hex(cols, alpha = TRUE)
-  cols = grDevices::col2rgb(cols, alpha = TRUE)
+  cols = colourvalues::colour_values_rgb(
+    cuts,
+    palette = m,
+    na_colour = na.color,
+    include_alpha = TRUE
+  )
+
+  # cols <- lattice::level.colors(v,
+  #                               at = at,
+  #                               col.regions)
+  # cols[is.na(cols)] = na.color
+  # # cols = col2Hex(cols, alpha = TRUE)
+  # cols = grDevices::col2rgb(cols, alpha = TRUE)
 
   x_size <- unname(dim(x)[1])
   z_size <- unname(dim(x)[2])
@@ -157,9 +160,9 @@ cubeview.stars <- function(x,
   }
 
 
-  cubeViewRaw(red = cols[1, ],
-              green = cols[2, ],
-              blue = cols[3, ],
+  cubeViewRaw(red = cols[, 1],
+              green = cols[, 2],
+              blue = cols[, 3],
               x_size = x_size,
               y_size = y_size,
               z_size = z_size,
@@ -170,18 +173,26 @@ cubeview.stars <- function(x,
 #' @name cubeview
 #' @export
 cubeview.Raster = function(x,
-                           ...,
                            at,
                            col.regions = viridisLite::inferno,
                            na.color = "#BEBEBE",
-                           legend = TRUE) {
+                           legend = TRUE,
+                           ...) {
 
   if (!raster::inMemory(x)) {
-    fls = sapply(lapply(x@layers, slot, name = "file"), slot, "name")
+    fls = sapply(
+      lapply(
+        x@layers,
+        methods::slot,
+        name = "file"
+      ),
+      methods::slot,
+      "name"
+    )
     if (all(duplicated(fls)[2:length(fls)])) {
       x = fls[1]
     } else {
-      x = stars::read_stars(fls, along = "band")
+      x = stars::read_stars(fls, along = "band", ...)
     }
     cubeview(x,
              ...,

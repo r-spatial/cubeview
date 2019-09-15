@@ -28,6 +28,7 @@ Depends:
     R (>= 2.10)
 Imports:
     base64enc,
+    colourvalues,
     htmltools,
     htmlwidgets,
     lattice,
@@ -35,6 +36,7 @@ Imports:
     stars,
     viridisLite
 Suggests:
+    methods,
     shiny
 LazyData: true
 RoxygenNote: 6.1.1

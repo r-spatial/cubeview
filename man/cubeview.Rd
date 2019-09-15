@@ -10,20 +10,21 @@
 \usage{
 cubeview(x, ...)
 
-\method{cubeview}{character}(x, ..., at,
-  col.regions = viridisLite::inferno, na.color = "#BEBEBE",
-  legend = TRUE)
+\method{cubeview}{character}(x, at, col.regions = viridisLite::inferno,
+  na.color = "#BEBEBE", legend = TRUE, ...)
 
-\method{cubeview}{stars}(x, ..., at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE)
+\method{cubeview}{stars}(x, at, col.regions = viridisLite::inferno,
+  na.color = "#BEBEBE", legend = TRUE, ...)
 
-\method{cubeview}{Raster}(x, ..., at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE)
+\method{cubeview}{Raster}(x, at, col.regions = viridisLite::inferno,
+  na.color = "#BEBEBE", legend = TRUE, ...)
 
 cubeView(x, ...)
 }
 \arguments{
 \item{x}{a file name, stars object, RasterStack or RasterBrick}
+
+\item{...}{additional arguments passed on to \link[stars]{read_stars}.}
 
 \item{at}{the breakpoints used for the visualisation. See
 \code{\link{levelplot}} for details.}
