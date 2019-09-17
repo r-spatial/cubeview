@@ -104,7 +104,7 @@ function Hovmoeller(root, json, legend_filename) {
 	this.scene = new THREE.Scene();
 	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.001, 1000 );
 	//this.camera.position.set( 45, 35, 45 );
-	console.log(this.camera.position);
+	//console.log(this.camera.position);
 	//this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 	this.renderer = new THREE.WebGLRenderer({/*antialias: true*/});
@@ -197,7 +197,7 @@ function Hovmoeller(root, json, legend_filename) {
 	this.materialZY.map = new THREE.DataTexture(new Uint8Array(ZY_SIZE*4), Z_SIZE, Y_SIZE, format, type, mapping, wrapS, wrapT, magFilter, minFilter, anisotropy);
 
 
-	this.cube = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(this.materials));
+	this.cube = new THREE.Mesh(geometry, this.materials);
   this.scene.add(this.cube);
 
 	var line_material_x = new THREE.LineBasicMaterial({color:0xff5555, linewidth:3});
