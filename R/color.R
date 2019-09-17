@@ -17,3 +17,8 @@ col2Hex <- function(col, alpha = FALSE) {
     }
   }
 }
+
+
+createId = function(ndigits = 6) {
+  paste(sample(c(letters[1:6], 0:9), ndigits), collapse = "")
+}
