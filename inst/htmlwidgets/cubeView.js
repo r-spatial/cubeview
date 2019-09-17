@@ -101,14 +101,19 @@ function Hovmoeller(root, json, legend_filename) {
     dB = flipY(b64toArray(json.blue));
   }
 
+  let hght = window.innerHeight;
+  let wdth = window.innerWidth;
+  console.log(hght);
+
+
 	this.scene = new THREE.Scene();
-	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.001, 1000 );
+	this.camera = new THREE.PerspectiveCamera(45, wdth / hght, 0.001, 1000 );
 	//this.camera.position.set( 45, 35, 45 );
 	//console.log(this.camera.position);
 	//this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-	this.renderer = new THREE.WebGLRenderer({/*antialias: true*/});
-	this.renderer.setSize(window.innerWidth, window.innerHeight);
+	this.renderer = new THREE.WebGLRenderer({});
+	this.renderer.setSize(wdth, hght);
 
   this.controls = new THREE.OrbitControls(this.camera);
 
