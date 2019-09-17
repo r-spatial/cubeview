@@ -152,8 +152,8 @@ cubeview.stars <- function(x,
     dir <- tempfile()
     dir.create(dir)
 
-    if (missing(at)) at <- lattice::do.breaks(rng, 256)
-    leg_fl <- paste0(dir, "/legend", ".png")
+    # if (missing(at)) at <- lattice::do.breaks(rng, 256)
+    leg_fl <- paste0(dir, "/legend_", createId(), ".png")
     grDevices::png(leg_fl, height = 200, width = 80, units = "px",
         bg = "transparent", pointsize = 14, antialias = "none")
     rasterLegend(
