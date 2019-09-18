@@ -114,9 +114,14 @@ cubeview.stars <- function(x,
   }
 
   ar = unclass(x[[1]]) # raw data matrix/array
-  v = do.call(rbind, lapply(seq(dim(ar)[3]), function(i) {
-    ar[, rev(seq_len(dim(ar)[2])), i]
-  }))
+  dms = unname(dim(ar))
+  if (length(dms) == 2) {
+    v = ar[, rev(seq_len(dms[2]))]
+  } else {
+    v = do.call(rbind, lapply(rev(seq(dms[3])), function(i) {
+      ar[, rev(seq_len(dim(ar)[2])), i]
+    }))
+  }
   rng = range(v, na.rm = TRUE)
   if (missing(at)) at <- lattice::do.breaks(rng, 256)
 
@@ -139,11 +144,9 @@ cubeview.stars <- function(x,
   # # cols = col2Hex(cols, alpha = TRUE)
   # cols = grDevices::col2rgb(cols, alpha = TRUE)
 
-  dms = unname(dim(x))
-
   x_size <- dms[1]
   z_size <- dms[2]
-  y_size <- dms[3]
+  y_size <- ifelse(length(dms) == 2, 1, dms[3])
 
   leg_fl <- NULL
 
