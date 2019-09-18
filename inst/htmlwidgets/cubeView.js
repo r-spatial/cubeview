@@ -101,8 +101,8 @@ function Hovmoeller(root, json, legend_filename) {
     dB = flipY(b64toArray(json.blue));
   }
 
-  let hght = window.innerHeight;
-  let wdth = window.innerWidth;
+  let hght = root.clientHeight;
+  let wdth = root.clientWidth;
   console.log(hght);
 
 
