@@ -125,24 +125,24 @@ cubeview.stars <- function(x,
   rng = range(v, na.rm = TRUE)
   if (missing(at)) at <- lattice::do.breaks(rng, 256)
 
-  cuts <- cut(v, at, include.lowest = TRUE, labels = FALSE)
+  # cuts <- cut(v, at, include.lowest = TRUE, labels = FALSE)
+  #
+  # n = 12L
+  # m = grDevices::colorRamp(col.regions(n))( (1:n)/n )
+  #
+  # cols = colourvalues::colour_values_rgb(
+  #   cuts,
+  #   palette = m,
+  #   na_colour = na.color,
+  #   include_alpha = TRUE
+  # )
 
-  n = 12L
-  m = grDevices::colorRamp(col.regions(n))( (1:n)/n )
-
-  cols = colourvalues::colour_values_rgb(
-    cuts,
-    palette = m,
-    na_colour = na.color,
-    include_alpha = TRUE
-  )
-
-  # cols <- lattice::level.colors(v,
-  #                               at = at,
-  #                               col.regions)
-  # cols[is.na(cols)] = na.color
-  # # cols = col2Hex(cols, alpha = TRUE)
-  # cols = grDevices::col2rgb(cols, alpha = TRUE)
+  cols <- lattice::level.colors(v,
+                                at = at,
+                                col.regions)
+  cols[is.na(cols)] = na.color
+  # cols = col2Hex(cols, alpha = TRUE)
+  cols = grDevices::col2rgb(cols, alpha = TRUE)
 
   x_size <- dms[1]
   z_size <- dms[2]
@@ -171,9 +171,9 @@ cubeview.stars <- function(x,
   }
 
 
-  cubeViewRaw(red = cols[, 1],
-              green = cols[, 2],
-              blue = cols[, 3],
+  cubeViewRaw(red = cols[1, ],
+              green = cols[2, ],
+              blue = cols[3, ],
               x_size = x_size,
               y_size = y_size,
               z_size = z_size,
