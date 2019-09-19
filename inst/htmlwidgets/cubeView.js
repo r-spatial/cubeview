@@ -113,9 +113,10 @@ function Hovmoeller(root, json, legend_filename) {
 	//this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 	this.renderer = new THREE.WebGLRenderer({});
+	this.renderer.domElement.tabIndex = 1; // needed to make keys work in RStudio
 	this.renderer.setSize(wdth, hght);
 
-  this.controls = new THREE.OrbitControls(this.camera);
+  this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
   this.controls.rotateSpeed = 1.0;
 	this.controls.zoomSpeed = 1.0;
