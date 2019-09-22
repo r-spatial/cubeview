@@ -1,8 +1,8 @@
 Package: cubeview
 Type: Package
 Title: View 3D Raster Cubes Interactively
-Version: 0.1.0
-Date: 2019-02-10
+Version: 0.1.1
+Date: 2019-09-22
 Authors@R: 
     c(person(given = "Tim",
              family = "Appelhans",

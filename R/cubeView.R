@@ -108,10 +108,10 @@ cubeview.stars <- function(x,
 
   stopifnot(inherits(x, "stars"))
 
-  if (!is.function(col.regions) &
-      (is.character(col.regions) | is.numeric(col.regions))) {
-    col.regions = colorRampPalette(col2Hex(col.regions))
-  }
+  # if (!is.function(col.regions) &
+  #     (is.character(col.regions) | is.numeric(col.regions))) {
+  #   col.regions = colorRampPalette(col2Hex(col.regions))
+  # }
 
   ar = unclass(x[[1]]) # raw data matrix/array
   dms = unname(dim(ar))
