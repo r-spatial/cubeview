@@ -1,8 +1,8 @@
 Package: cubeview
 Type: Package
 Title: View 3D Raster Cubes Interactively
-Version: 0.1.0
-Date: 2019-02-10
+Version: 0.2.0
+Date: 2019-09-23
 Authors@R: 
     c(person(given = "Tim",
              family = "Appelhans",
@@ -28,7 +28,6 @@ Depends:
     R (>= 2.10)
 Imports:
     base64enc,
-    colourvalues,
     htmltools,
     htmlwidgets,
     lattice,
