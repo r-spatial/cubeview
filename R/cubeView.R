@@ -114,12 +114,21 @@ cubeview.stars <- function(x,
   # }
 
   ar = unclass(x[[1]]) # raw data matrix/array
-  dms = unname(dim(ar))
-  if (length(dms) == 2) {
-    v = ar[, rev(seq_len(dms[2]))]
+  # dms = unname(dim(ar))
+  dm_x = dim(x)["x"]
+  dm_y = dim(x)["y"]
+  dm_z = dim(x)["band"]
+  dms = c(dim(x)["x"], dim(x)["y"], dim(x)["band"])
+  # dms = unname(dms)
+  dms_na = which(is.na(dms))
+  dms[is.na(dms)] = 1
+
+  if (any(dms == 1)) {
+    dms_ex1 = dms[dms != 1]
+    v = ar[, rev(seq_len(dms_ex1[2]))]
   } else {
     v = do.call(rbind, lapply(rev(seq(dms[3])), function(i) {
-      ar[, rev(seq_len(dim(ar)[2])), i]
+      ar[, rev(seq_len(dms[2])), i]
     }))
   }
   rng = range(v, na.rm = TRUE)
@@ -144,6 +153,7 @@ cubeview.stars <- function(x,
   # cols = col2Hex(cols, alpha = TRUE)
   cols = grDevices::col2rgb(cols, alpha = TRUE)
 
+  dms = unname(dms)
   x_size <- dms[1]
   z_size <- dms[2]
   y_size <- ifelse(length(dms) == 2, 1, dms[3])
