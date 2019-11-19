@@ -161,10 +161,13 @@ cubeview.stars <- function(x,
         bg = "transparent", pointsize = 14, antialias = "none")
     rasterLegend(
       list(
-        col = col.regions,
-        at = at,
-        height = 0.9,
-        space = "right"
+        col = col.regions
+        , at = at
+        , height = 0.9
+        , space = "right"
+        , raster = FALSE
+        , axis.line = list(col = '#999999')
+        , axis.text = list(col = '#999999')
       )
     )
     grDevices::dev.off()
@@ -329,13 +332,22 @@ cubeViewRaw <- function(grey = NULL,
     object_list <- c(object_list, list(blue=base64enc::base64encode(as.raw(as.integer(blue)))))
   }
 
+  dep_nm = paste('images', paste(sample(9, 3), collapse = ''), sep = '-')
+  object_list = utils::modifyList(object_list, list(dep_nm = dep_nm))
+
   deps <- list()
 
-  if(!is.null(leg_fl)) {
+  if (!is.null(leg_fl)) {
     images_dir <- dirname(leg_fl)
     legend_file <- basename(leg_fl)
     attachments <- list(legend=legend_file)
-    dep1 <- htmltools::htmlDependency(name = "images", version = "1", src = c(file = images_dir), attachment = attachments, all_files = FALSE)
+    dep1 <- htmltools::htmlDependency(
+      name = dep_nm
+      , version = '1'
+      , src = c(file = images_dir)
+      , attachment = attachments
+      , all_files = FALSE
+    )
     deps <- list(dep1)
   }
 
