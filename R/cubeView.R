@@ -166,21 +166,42 @@ cubeview.stars <- function(x,
     dir.create(dir)
 
     # if (missing(at)) at <- lattice::do.breaks(rng, 256)
-    leg_fl <- paste0(dir, "/legend_", createId(), ".png")
-    grDevices::png(leg_fl, height = 200, width = 80, units = "px",
-        bg = "transparent", pointsize = 14, antialias = "none")
-    rasterLegend(
-      list(
-        col = col.regions
-        , at = at
-        , height = 0.9
-        , space = "right"
-        , raster = FALSE
-        , axis.line = list(col = '#999999')
-        , axis.text = list(col = '#999999')
+    # leg_fl <- paste0(dir, "/legend_", createId(), ".png")
+    # grDevices::png(leg_fl, height = 200, width = 80, units = "px",
+    #     bg = "transparent", pointsize = 12, antialias = "none")
+    if (unname(capabilities('cairo'))) {
+      leg_fl <- paste0(dir, "/legend_", createId(), ".svg")
+      grDevices::svg(leg_fl, height = 2, width = 0.8,
+                     bg = "transparent", pointsize = 12, antialias = "gray")
+      rasterLegend(
+        list(
+          col = col.regions
+          , at = at
+          , height = 0.9
+          , space = "right"
+          , raster = TRUE
+          , axis.line = list(col = '#999999')
+          , axis.text = list(col = '#999999')
+        )
       )
-    )
-    grDevices::dev.off()
+      grDevices::dev.off()
+    } else {
+      leg_fl <- paste0(dir, "/legend_", createId(), ".png")
+      grDevices::png(leg_fl, height = 200, width = 80, units = "px",
+          bg = "transparent", pointsize = 12, antialias = "none")
+      rasterLegend(
+        list(
+          col = col.regions
+          , at = at
+          , height = 0.9
+          , space = "right"
+          , raster = FALSE
+          , axis.line = list(col = '#999999')
+          , axis.text = list(col = '#999999')
+        )
+      )
+      grDevices::dev.off()
+    }
   }
 
 

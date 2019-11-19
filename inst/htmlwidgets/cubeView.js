@@ -137,9 +137,9 @@ function Hovmoeller(root, json, legend_filename) {
     var labelX = document.createElement("span");
     var labelY = document.createElement("span");
     var labelZ = document.createElement("span");
-    labelX.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X:&nbsp;";
-    labelY.innerHTML = "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y:&nbsp;";
-    labelZ.innerHTML = "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z:&nbsp;";
+    labelX.innerHTML = "&emsp;X:&nbsp;";
+    labelY.innerHTML = "<br>&emsp;Y:&nbsp;";
+    labelZ.innerHTML = "<br>&emsp;Z:&nbsp;";
     statusX = document.createElement("span");
     statusY = document.createElement("span");
     statusZ = document.createElement("span");
