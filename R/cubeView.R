@@ -171,8 +171,10 @@ cubeview.stars <- function(x,
     #     bg = "transparent", pointsize = 12, antialias = "none")
     if (unname(capabilities('cairo'))) {
       leg_fl <- paste0(dir, "/legend_", createId(), ".svg")
-      grDevices::svg(leg_fl, height = 2, width = 0.8,
-                     bg = "transparent", pointsize = 12, antialias = "gray")
+      # grDevices::svg(leg_fl, height = 2, width = 0.8,
+      #                bg = "transparent", pointsize = 12, antialias = "none")
+      svglite::svglite(file = leg_fl, width = 1.3,
+                       bg = "transparent", pointsize = 25)
       rasterLegend(
         list(
           col = col.regions
@@ -211,7 +213,8 @@ cubeview.stars <- function(x,
               x_size = x_size,
               y_size = y_size,
               z_size = z_size,
-              leg_fl = leg_fl)
+              leg_fl = leg_fl,
+              ...)
 
 }
 
@@ -326,7 +329,8 @@ cubeViewRaw <- function(grey = NULL,
                         z_size,
                         width = NULL,
                         height = NULL,
-                        leg_fl = NULL) {
+                        leg_fl = NULL,
+                        ...) {
 
   total_size <- x_size*y_size*z_size
 
@@ -334,6 +338,8 @@ cubeViewRaw <- function(grey = NULL,
                       y_size = y_size,
                       z_size = z_size,
                       legend = !is.null(leg_fl))
+
+  object_list = utils::modifyList(object_list, list(...))
 
   if(!is.null(grey)) {
     if(length(grey)!=total_size) {

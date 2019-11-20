@@ -33,6 +33,7 @@ Imports:
     lattice,
     raster,
     stars,
+    svglite,
     viridisLite
 Suggests:
     methods,
