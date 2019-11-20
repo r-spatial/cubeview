@@ -126,20 +126,37 @@ function Hovmoeller(root, json, legend_filename) {
   var self = this;
   this.controls.addEventListener('change', function mov() {self.render();});
 
+  var leg_wdth;
+  if (json.legend_width) {
+    leg_wdth = json.legend_width;
+  } else {
+    leg_wdth = 50;
+  }
+
+  var leg_hght;
+  if (json.legend_height) {
+    leg_hght = json.legend_height;
+  } else {
+    leg_hght = 250;
+  }
+
+
   root.innerHTML = "";
   if(legend_filename !== undefined) {
     var divLegend = document.createElement("div");
     divLegend.id = "divLegend";
     var legend_image = new Image();
     legend_image.src = legend_filename;
+    legend_image.height = leg_hght;
+    legend_image.width = leg_wdth;
     divLegend.appendChild(legend_image);
     var divStatus = document.createElement("div");
     var labelX = document.createElement("span");
     var labelY = document.createElement("span");
     var labelZ = document.createElement("span");
-    labelX.innerHTML = "&emsp;X:&nbsp;";
-    labelY.innerHTML = "<br>&emsp;Y:&nbsp;";
-    labelZ.innerHTML = "<br>&emsp;Z:&nbsp;";
+    labelX.innerHTML = "&nbsp;X:&nbsp;";
+    labelY.innerHTML = "<br>&nbsp;Y:&nbsp;";
+    labelZ.innerHTML = "<br>&nbsp;Z:&nbsp;";
     statusX = document.createElement("span");
     statusY = document.createElement("span");
     statusZ = document.createElement("span");
