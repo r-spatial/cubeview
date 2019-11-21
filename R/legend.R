@@ -6,7 +6,7 @@
 #'
 #' @export legendOptions
 #' @name legendOptions
-legendOptions = function(width = 200, height = 250, ...) {
+legendOptions = function(width = NULL, height = NULL, ...) {
   list(
     width = width
     , height = height
@@ -22,7 +22,7 @@ rasterLegend <- function(key) {
   clrkey$framevp$justification = 'left'
   clrkey$framevp$valid.just = c(0.5, 0.5)
   clrkey$framevp$layout$just = 'left'
-  clrkey$framevp$layout$valid.just = c(0, 0.5)
+  clrkey$framevp$layout$valid.just = c(1, 0.5)
   clrkey$framevp$clip = FALSE
   grid::grid.draw(clrkey)
 }

@@ -126,33 +126,28 @@ function Hovmoeller(root, json, legend_filename) {
   var self = this;
   this.controls.addEventListener('change', function mov() {self.render();});
 
-  var leg_wdth = json.legendOptions.width;
-  var leg_hght = json.legendOptions.height;
+  var leg_wdth; // = json.legendOptions.width;
+  var leg_hght; // = json.legendOptions.height;
 
-  /*
-  if (json.legend_width) {
-    leg_wdth = json.legend_width;
+  if (json.legendOptions.width) {
+    leg_wdth = json.legendOptions.width;
   } else {
-    leg_wdth = 50;
+    leg_wdth = 400;
   }
 
-  var leg_hght;
-  if (json.legend_height) {
-    leg_hght = json.legend_height;
+  if (json.legendOptions.height) {
+    leg_hght = json.legendOptions.height;
   } else {
-    leg_hght = 250;
-  }*/
+    leg_hght = 400;
+  }
 
 
   root.innerHTML = "";
   if(legend_filename !== undefined) {
     var divLegend = document.createElement("div");
     divLegend.id = "divLegend";
-    var legend_image = new Image();
+    var legend_image = new Image(leg_wdth, leg_hght);
     legend_image.src = legend_filename;
-    legend_image.height = leg_hght;
-    legend_image.width = leg_wdth;
-    legend_image.clip = 'auto';
     divLegend.appendChild(legend_image);
     var divStatus = document.createElement("div");
     var labelX = document.createElement("span");

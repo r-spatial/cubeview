@@ -4,7 +4,7 @@
 \alias{legendOptions}
 \title{Options to control legend appearance.}
 \usage{
-legendOptions(width = 200, height = 250, ...)
+legendOptions(width = NULL, height = NULL, ...)
 }
 \arguments{
 \item{width}{width of the legend in pixels.}

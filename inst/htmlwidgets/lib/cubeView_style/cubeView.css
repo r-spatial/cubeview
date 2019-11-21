@@ -12,9 +12,11 @@ canvas {
   position: absolute;
   pointer-events: none; /*pass mouse events to parent*/
   top: 15px;
-  left: 15px;
+  bottom: 15px;
+  right: 15px;
   color: #999999;
   opacity: 1;
   z-index: 1;
   overflow: visible;
+  text-align: right;
 }

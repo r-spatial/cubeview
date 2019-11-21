@@ -177,14 +177,17 @@ cubeview.stars <- function(x,
     lg_wdth = ifelse(
       !is.null(legend.options$width)
       , legend.options$width
-      , legendOptions()$width
+      , 400
     )
 
     lg_hght = ifelse(
       !is.null(legend.options$height)
       , legend.options$height
-      , legendOptions()$height
+      , 400
     )
+
+    # lg_wdth = legend.options$width
+    # lg_hght = legend.options$height
 
     if (unname(capabilities('cairo'))) {
       leg_fl <- paste0(dir, "/legend_", createId(), ".svg")
@@ -197,7 +200,7 @@ cubeview.stars <- function(x,
           col = col.regions
           , at = at
           , height = 0.9
-          , space = "right"
+          , space = "left"
           , raster = TRUE
           , interpolate = FALSE
           , axis.line = list(col = '#999999')
@@ -214,7 +217,7 @@ cubeview.stars <- function(x,
           col = col.regions
           , at = at
           , height = 0.9
-          , space = "right"
+          , space = "left"
           , raster = FALSE
           , axis.line = list(col = '#999999')
           , axis.text = list(col = '#999999')
