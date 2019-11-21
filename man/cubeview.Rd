@@ -11,13 +11,16 @@
 cubeview(x, ...)
 
 \method{cubeview}{character}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE, ...)
+  na.color = "#BEBEBE", legend = TRUE,
+  legend.options = legendOptions(), ...)
 
 \method{cubeview}{stars}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE, ...)
+  na.color = "#BEBEBE", legend = TRUE,
+  legend.options = legendOptions(), ...)
 
 \method{cubeview}{Raster}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE, ...)
+  na.color = "#BEBEBE", legend = TRUE,
+  legend.options = legendOptions(), ...)
 
 cubeView(x, ...)
 }
@@ -35,6 +38,8 @@ used for palette generation.}
 \item{na.color}{color for missing values.}
 
 \item{legend}{logical. Whether to plot a legend.}
+
+\item{legend.options}{list of options (width & height in pixels) for the legend.}
 }
 \description{
 Creates a 3D data cube view of a RasterStack/Brick.
