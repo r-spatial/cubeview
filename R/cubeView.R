@@ -16,7 +16,10 @@
 #'   used for palette generation.
 #' @param na.color color for missing values.
 #' @param legend logical. Whether to plot a legend.
+#' @param options list of options (x_pos, y_pos, z_pos) for the cube.
+#'   See \link{cubeOptions} for details.
 #' @param legend.options list of options (width & height in pixels) for the legend.
+#'   See \link{legendOptions} for details.
 #' @param ... additional arguments passed on to \link[stars]{read_stars}.
 #'
 #' @details
@@ -64,6 +67,9 @@
 #'   ## use different color palette and set breaks
 #'   clr <- viridisLite::viridis
 #'   cubeview(kili_data, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
+#'
+#'   ## specify initial location of slices
+#'   cubeview(kili_data, options = cubeOptions(x_pos = 21, y_pos = 45, z_pos = 22))
 #' }
 #'
 #' @importFrom raster as.matrix ncol nrow nlayers
@@ -85,6 +91,7 @@ cubeview.character = function(x,
                               col.regions = viridisLite::inferno,
                               na.color = "#BEBEBE",
                               legend = TRUE,
+                              options = cubeOptions(),
                               legend.options = legendOptions(),
                               ...) {
 
@@ -97,6 +104,7 @@ cubeview.character = function(x,
            col.regions = col.regions,
            na.color = na.color,
            legend = legend,
+           options = options,
            legend.options = legend.options)
 }
 
@@ -107,6 +115,7 @@ cubeview.stars <- function(x,
                            col.regions = viridisLite::inferno,
                            na.color = "#BEBEBE",
                            legend = TRUE,
+                           options = cubeOptions(),
                            legend.options = legendOptions(),
                            ...) {
 
@@ -129,7 +138,8 @@ cubeview.stars <- function(x,
 
   if (any(dms == 1)) {
     dms_ex1 = dms[dms != 1]
-    v = ar[, rev(seq_len(dms_ex1[2]))]
+    # v = ar[rev(seq_len(dms_ex1["y"])), ]
+    v = t(ar)
   } else {
     v = do.call(rbind, lapply(rev(seq(dms[3])), function(i) {
       ar[, rev(seq_len(dms[2])), i]
@@ -235,6 +245,7 @@ cubeview.stars <- function(x,
               y_size = y_size,
               z_size = z_size,
               leg_fl = leg_fl,
+              options = options,
               legend.options = legend.options,
               ...)
 
@@ -247,6 +258,7 @@ cubeview.Raster = function(x,
                            col.regions = viridisLite::inferno,
                            na.color = "#BEBEBE",
                            legend = TRUE,
+                           options = cubeOptions(),
                            legend.options = legendOptions(),
                            ...) {
 
@@ -271,6 +283,7 @@ cubeview.Raster = function(x,
              col.regions = col.regions,
              na.color = na.color,
              legend = legend,
+             options = options,
              legend.options = legend.options)
   } else {
     x = stars::st_as_stars(x)
@@ -280,6 +293,7 @@ cubeview.Raster = function(x,
              col.regions = col.regions,
              na.color = na.color,
              legend = legend,
+             options = options,
              legend.options = legend.options)
   }
 }
@@ -355,6 +369,7 @@ cubeViewRaw <- function(grey = NULL,
                         width = NULL,
                         height = NULL,
                         leg_fl = NULL,
+                        options = cubeOptions(),
                         legend.options = legendOptions(),
                         ...) {
 
@@ -366,9 +381,11 @@ cubeViewRaw <- function(grey = NULL,
                       legend = !is.null(leg_fl))
 
   legend.options = utils::modifyList(legendOptions(), legend.options)
+  options = utils::modifyList(cubeOptions(), options)
 
   object_list = utils::modifyList(object_list, list(...))
   object_list = utils::modifyList(object_list, list(legendOptions = legend.options))
+  object_list = utils::modifyList(object_list, list(options = options))
 
   if(!is.null(grey)) {
     if(length(grey)!=total_size) {

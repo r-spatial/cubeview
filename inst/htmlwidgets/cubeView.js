@@ -81,9 +81,9 @@ function Hovmoeller(root, json, legend_filename) {
   XZ_SIZE = X_SIZE*Z_SIZE;
   ZY_SIZE = Z_SIZE*Y_SIZE;
   XYZ_SIZE = X_SIZE*Y_SIZE*Z_SIZE;
-  x_pos = 0;
-  y_pos = 0;
-  z_pos = 0;
+  x_pos = json.options.x_pos - 1 ;
+  y_pos = json.options.z_pos - 1;
+  z_pos = json.options.y_pos - 1;
 
 
   if (json.grey !== undefined) {

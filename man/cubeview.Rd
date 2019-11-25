@@ -11,15 +11,15 @@
 cubeview(x, ...)
 
 \method{cubeview}{character}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE,
+  na.color = "#BEBEBE", legend = TRUE, options = cubeOptions(),
   legend.options = legendOptions(), ...)
 
 \method{cubeview}{stars}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE,
+  na.color = "#BEBEBE", legend = TRUE, options = cubeOptions(),
   legend.options = legendOptions(), ...)
 
 \method{cubeview}{Raster}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE,
+  na.color = "#BEBEBE", legend = TRUE, options = cubeOptions(),
   legend.options = legendOptions(), ...)
 
 cubeView(x, ...)
@@ -39,7 +39,11 @@ used for palette generation.}
 
 \item{legend}{logical. Whether to plot a legend.}
 
-\item{legend.options}{list of options (width & height in pixels) for the legend.}
+\item{options}{list of options (x_pos, y_pos, z_pos) for the cube.
+See \link{cubeOptions} for details.}
+
+\item{legend.options}{list of options (width & height in pixels) for the legend.
+See \link{legendOptions} for details.}
 }
 \description{
 Creates a 3D data cube view of a RasterStack/Brick.
@@ -92,6 +96,9 @@ if (interactive()) {
   ## use different color palette and set breaks
   clr <- viridisLite::viridis
   cubeview(kili_data, at = seq(-0.15, 0.95, 0.1), col.regions = clr)
+
+  ## specify initial location of slices
+  cubeview(kili_data, options = cubeOptions(x_pos = 21, y_pos = 45, z_pos = 22))
 }
 
 }
