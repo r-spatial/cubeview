@@ -11,7 +11,7 @@
 #'
 #' @param x a file name, stars object, RasterStack or RasterBrick
 #' @param at the breakpoints used for the visualisation. See
-#' \code{\link{levelplot}} for details.
+#' \code{\link[lattice]{levelplot}} for details.
 #' @param col.regions either a palette function or a vector of colors to be
 #'   used for palette generation.
 #' @param na.color color for missing values.
@@ -450,7 +450,7 @@ cubeViewRaw <- function(grey = NULL,
 #'
 #' @param outputId Output variable to read from
 #' @param width,height the width and height of the map
-#' (see \code{\link{shinyWidgetOutput}})
+#' (see \code{\link[htmlwidgets]{shinyWidgetOutput}})
 #'
 #' @examples
 #' if (interactive()) {

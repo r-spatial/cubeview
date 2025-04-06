@@ -38,5 +38,5 @@ Imports:
 Suggests:
     methods,
     shiny
-LazyData: true
-RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

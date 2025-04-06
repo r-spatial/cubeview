@@ -10,17 +10,38 @@
 \usage{
 cubeview(x, ...)
 
-\method{cubeview}{character}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE, options = cubeOptions(),
-  legend.options = legendOptions(), ...)
+\method{cubeview}{character}(
+  x,
+  at,
+  col.regions = viridisLite::inferno,
+  na.color = "#BEBEBE",
+  legend = TRUE,
+  options = cubeOptions(),
+  legend.options = legendOptions(),
+  ...
+)
 
-\method{cubeview}{stars}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE, options = cubeOptions(),
-  legend.options = legendOptions(), ...)
+\method{cubeview}{stars}(
+  x,
+  at,
+  col.regions = viridisLite::inferno,
+  na.color = "#BEBEBE",
+  legend = TRUE,
+  options = cubeOptions(),
+  legend.options = legendOptions(),
+  ...
+)
 
-\method{cubeview}{Raster}(x, at, col.regions = viridisLite::inferno,
-  na.color = "#BEBEBE", legend = TRUE, options = cubeOptions(),
-  legend.options = legendOptions(), ...)
+\method{cubeview}{Raster}(
+  x,
+  at,
+  col.regions = viridisLite::inferno,
+  na.color = "#BEBEBE",
+  legend = TRUE,
+  options = cubeOptions(),
+  legend.options = legendOptions(),
+  ...
+)
 
 cubeView(x, ...)
 }
@@ -30,7 +51,7 @@ cubeView(x, ...)
 \item{...}{additional arguments passed on to \link[stars]{read_stars}.}
 
 \item{at}{the breakpoints used for the visualisation. See
-\code{\link{levelplot}} for details.}
+\code{\link[lattice]{levelplot}} for details.}
 
 \item{col.regions}{either a palette function or a vector of colors to be
 used for palette generation.}

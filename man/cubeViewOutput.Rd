@@ -13,7 +13,7 @@ renderCubeView(expr, env = parent.frame(), quoted = FALSE)
 \item{outputId}{Output variable to read from}
 
 \item{width, height}{the width and height of the map
-(see \code{\link{shinyWidgetOutput}})}
+(see \code{\link[htmlwidgets]{shinyWidgetOutput}})}
 
 \item{expr}{An expression that generates an HTML widget}
 
