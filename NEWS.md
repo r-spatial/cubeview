@@ -6,6 +6,8 @@
 
 #### 💬 documentation etc
 
+* add proper package anchors as requested by CRAN.
+
 #### 🍬 miscellaneous
 
 
