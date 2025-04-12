@@ -1,4 +1,4 @@
-# cubeview 0.2.2.9000 (2025-04-06)
+# cubeview 0.2.2.9001 (2025-04-12)
 
 #### ✨ features and improvements
 
