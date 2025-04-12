@@ -1,15 +1,8 @@
-# cubeview 0.2.2.9002 (2025-04-12)
-
-#### ✨ features and improvements
-
-#### 🐛 bug fixes
+# cubeview 0.2.3 (2025-04-12)
 
 #### 💬 documentation etc
 
 * add proper package anchors as requested by CRAN.
-
-#### 🍬 miscellaneous
-
 
 ## cubeview 0.2.2
 
