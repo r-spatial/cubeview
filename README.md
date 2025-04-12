@@ -3,12 +3,15 @@
 
 # cubeview - Interactively Explore 3D Raster Data Cubes
 
-[![Travis build
-status](https://travis-ci.org/r-spatial/cubeview.svg?branch=master)](https://travis-ci.org/r-spatial/cubeview)
-[![monthly](http://cranlogs.r-pkg.org/badges/cubeview)](https://www.rpackages.io/package/cubeview)
-[![total](http://cranlogs.r-pkg.org/badges/grand-total/cubeview)](https://www.rpackages.io/package/cubeview)
-[![CRAN](http://www.r-pkg.org/badges/version/cubeview?color=009999)](https://cran.r-project.org/package=cubeview)
-[![status](https://tinyverse.netlify.com/badge/cubeview)](https://CRAN.R-project.org/package=cubeview)
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/r-spatial/cubeview/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatial/cubeview/actions/workflows/R-CMD-check.yaml)
+[![cran
+checks](https://badges.cranchecks.info/worst/cubeview.svg)](https://cran.r-project.org/web/checks/check_results_cubeview.html)
+![monthly](https://cranlogs.r-pkg.org/badges/cubeview)
+![total](https://cranlogs.r-pkg.org/badges/grand-total/cubeview)
+[![CRAN](https://www.r-pkg.org/badges/version/cubeview?color=009999)](https://cran.r-project.org/package=cubeview)
+<!-- badges: end -->
 
 `cubeview` enables interactive 3D exploration of raster data cubes.
 
@@ -37,5 +40,5 @@ cubeview(kiliNDVI)
 ### Code of Conduct
 
 Please note that the ‘cubeview’ project is released with a [Contributor
-Code of Conduct](https://github.com/r-spatial/cubeview/blob/master/CODE_OF_CONDUCT.md). By participating in this project
+Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project
 you agree to abide by its terms.
