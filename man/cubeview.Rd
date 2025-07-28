@@ -18,6 +18,7 @@ cubeview(x, ...)
   legend = TRUE,
   options = cubeOptions(),
   legend.options = legendOptions(),
+  zdim = "band",
   ...
 )
 
@@ -29,6 +30,9 @@ cubeview(x, ...)
   legend = TRUE,
   options = cubeOptions(),
   legend.options = legendOptions(),
+  xdim = "x",
+  ydim = "y",
+  zdim = "band",
   ...
 )
 

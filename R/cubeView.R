@@ -93,11 +93,12 @@ cubeview.character = function(x,
                               legend = TRUE,
                               options = cubeOptions(),
                               legend.options = legendOptions(),
+                              zdim = "band",
                               ...) {
 
   if (!file.exists(x[1])) stop(sprintf("cannot find file %s", x))
 
-  strs = stars::read_stars(x, along = "band", ...)
+  strs = stars::read_stars(x, along = zdim, ...)
   cubeview(strs,
            ...,
            at = at,
@@ -105,7 +106,8 @@ cubeview.character = function(x,
            na.color = na.color,
            legend = legend,
            options = options,
-           legend.options = legend.options)
+           legend.options = legend.options,
+           zdim = zdim)
 }
 
 #' @name cubeview
@@ -117,6 +119,9 @@ cubeview.stars <- function(x,
                            legend = TRUE,
                            options = cubeOptions(),
                            legend.options = legendOptions(),
+                           xdim = "x",
+                           ydim = "y",
+                           zdim = "band",
                            ...) {
 
   stopifnot(inherits(x, "stars"))
@@ -126,12 +131,16 @@ cubeview.stars <- function(x,
   #   col.regions = colorRampPalette(col2Hex(col.regions))
   # }
 
+  if (length(dim(x)) == 2) {
+    x = aperm(x, c(xdim, ydim))
+  }
+  if (length(dim(x)) > 2) {
+    x = aperm(x, c(xdim, ydim, zdim))
+  }
   ar = unclass(x[[1]]) # raw data matrix/array
   # dms = unname(dim(ar))
-  dm_x = dim(x)["x"]
-  dm_y = dim(x)["y"]
-  dm_z = dim(x)["band"]
-  dms = c(dim(x)["x"], dim(x)["y"], dim(x)["band"])
+
+  dms = c(dim(x)[xdim], dim(x)[ydim], dim(x)[zdim])
   # dms = unname(dms)
   dms_na = which(is.na(dms))
   dms[is.na(dms)] = 1
