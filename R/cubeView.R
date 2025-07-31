@@ -20,6 +20,9 @@
 #'   See \link{cubeOptions} for details.
 #' @param legend.options list of options (width & height in pixels) for the legend.
 #'   See \link{legendOptions} for details.
+#' @param xdim name of the x dimension.
+#' @param ydim name of the y dimension.
+#' @param zdim name of the z dimension.
 #' @param ... additional arguments passed on to \link[stars]{read_stars}.
 #'
 #' @details
@@ -72,7 +75,6 @@
 #'   cubeview(kili_data, options = cubeOptions(x_pos = 21, y_pos = 45, z_pos = 22))
 #' }
 #'
-#' @importFrom raster as.matrix ncol nrow nlayers
 #' @importFrom lattice level.colors do.breaks draw.colorkey
 #' @importFrom grDevices col2rgb png dev.off rgb
 #' @importFrom base64enc base64encode

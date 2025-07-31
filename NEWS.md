@@ -2,6 +2,8 @@
 
 #### ✨ features and improvements
 
+  * support for SpatRaster
+
 #### 🐛 bug fixes
 
 #### 💬 documentation etc

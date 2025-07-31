@@ -80,6 +80,12 @@ See \link{cubeOptions} for details.}
 
 \item{legend.options}{list of options (width & height in pixels) for the legend.
 See \link{legendOptions} for details.}
+
+\item{xdim}{name of the x dimension.}
+
+\item{ydim}{name of the y dimension.}
+
+\item{zdim}{name of the z dimension.}
 }
 \description{
 Creates a 3D data cube view of a RasterStack/Brick.

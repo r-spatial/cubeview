@@ -29,12 +29,13 @@ Imports:
     htmltools,
     htmlwidgets,
     lattice,
-    raster,
     stars,
     svglite,
     viridisLite
 Suggests:
     methods,
-    shiny
+    raster,
+    shiny,
+    terra
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
