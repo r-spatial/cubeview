@@ -40,7 +40,7 @@
 #' a web-browser (RStudio button at viewer: "show in new window").
 #'
 #' \emph{Note:} \cr
-#' Because of key focus issues key-press-events may not always
+#' Because of key focus issues key-press-events may not always be
 #' recognised within RStudio on Windows. In this case open the view in
 #' a web-browser (RStudio button at viewer: "show in new window").
 #'
@@ -93,13 +93,13 @@ cubeview.character = function(x,
                               legend = TRUE,
                               options = cubeOptions(),
                               legend.options = legendOptions(),
-                              zdim = "band",
                               ...) {
 
   if (!file.exists(x[1])) stop(sprintf("cannot find file %s", x))
 
-  strs = stars::read_stars(x, along = zdim, ...)
-  cubeview(strs,
+  x = stars::read_stars(x)
+  dnms = dimnames(x)
+  cubeview(x,
            ...,
            at = at,
            col.regions = col.regions,
@@ -107,7 +107,10 @@ cubeview.character = function(x,
            legend = legend,
            options = options,
            legend.options = legend.options,
-           zdim = zdim)
+           xdim = dnms[1],
+           ydim = dnms[2],
+           zdim = dnms[3])
+
 }
 
 #' @name cubeview
@@ -132,7 +135,8 @@ cubeview.stars <- function(x,
   # }
 
   if (length(dim(x)) == 2) {
-    x = aperm(x, c(xdim, ydim))
+    stop("not a cube!", call. = FALSE)
+    # x = aperm(x, c(xdim, ydim))
   }
   if (length(dim(x)) > 2) {
     x = aperm(x, c(xdim, ydim, zdim))
@@ -262,49 +266,57 @@ cubeview.stars <- function(x,
 
 #' @name cubeview
 #' @export
-cubeview.Raster = function(x,
-                           at,
-                           col.regions = viridisLite::inferno,
-                           na.color = "#BEBEBE",
-                           legend = TRUE,
-                           options = cubeOptions(),
-                           legend.options = legendOptions(),
-                           ...) {
+cubeview.SpatRaster = function(x,
+                               at,
+                               col.regions = viridisLite::inferno,
+                               na.color = "#BEBEBE",
+                               legend = TRUE,
+                               options = cubeOptions(),
+                               legend.options = legendOptions(),
+                               ...) {
 
-  if (!raster::inMemory(x)) {
-    fls = sapply(
-      lapply(
-        x@layers,
-        methods::slot,
-        name = "file"
-      ),
-      methods::slot,
-      "name"
-    )
-    if (all(duplicated(fls)[2:length(fls)])) {
-      x = fls[1]
-    } else {
-      x = stars::read_stars(fls, along = "band", ...)
-    }
-    cubeview(x,
-             ...,
-             at = at,
-             col.regions = col.regions,
-             na.color = na.color,
-             legend = legend,
-             options = options,
-             legend.options = legend.options)
-  } else {
-    x = stars::st_as_stars(x)
-    cubeview(x,
-             ...,
-             at = at,
-             col.regions = col.regions,
-             na.color = na.color,
-             legend = legend,
-             options = options,
-             legend.options = legend.options)
-  }
+  x = stars::st_as_stars(x)
+  dnms = dimnames(x)
+  cubeview(x,
+           ...,
+           at = at,
+           col.regions = col.regions,
+           na.color = na.color,
+           legend = legend,
+           options = options,
+           legend.options = legend.options,
+           xdim = dnms[1],
+           ydim = dnms[2],
+           zdim = dnms[3])
+
+}
+
+
+#' @name cubeview
+#' @export
+cubeview.RasterStackBrick = function(x,
+                                     at,
+                                     col.regions = viridisLite::inferno,
+                                     na.color = "#BEBEBE",
+                                     legend = TRUE,
+                                     options = cubeOptions(),
+                                     legend.options = legendOptions(),
+                                     ...) {
+
+  x = stars::st_as_stars(x)
+  dnms = dimnames(x)
+  cubeview(x,
+           ...,
+           at = at,
+           col.regions = col.regions,
+           na.color = na.color,
+           legend = legend,
+           options = options,
+           legend.options = legend.options,
+           xdim = dnms[1],
+           ydim = dnms[2],
+           zdim = dnms[3])
+
 }
 
 

@@ -4,7 +4,8 @@
 \alias{cubeview}
 \alias{cubeview.character}
 \alias{cubeview.stars}
-\alias{cubeview.Raster}
+\alias{cubeview.SpatRaster}
+\alias{cubeview.RasterStackBrick}
 \alias{cubeView}
 \title{View a RasterStack or RasterBrick as 3-dimensional data cube.}
 \usage{
@@ -18,7 +19,6 @@ cubeview(x, ...)
   legend = TRUE,
   options = cubeOptions(),
   legend.options = legendOptions(),
-  zdim = "band",
   ...
 )
 
@@ -36,7 +36,18 @@ cubeview(x, ...)
   ...
 )
 
-\method{cubeview}{Raster}(
+\method{cubeview}{SpatRaster}(
+  x,
+  at,
+  col.regions = viridisLite::inferno,
+  na.color = "#BEBEBE",
+  legend = TRUE,
+  options = cubeOptions(),
+  legend.options = legendOptions(),
+  ...
+)
+
+\method{cubeview}{RasterStackBrick}(
   x,
   at,
   col.regions = viridisLite::inferno,
@@ -97,7 +108,7 @@ In RStudio cubeView may show a blank viewer window. In this case open the view i
 a web-browser (RStudio button at viewer: "show in new window").
 
 \emph{Note:} \cr
-Because of key focus issues key-press-events may not always
+Because of key focus issues key-press-events may not always be
 recognised within RStudio on Windows. In this case open the view in
 a web-browser (RStudio button at viewer: "show in new window").
 }
