@@ -1,14 +1,8 @@
-# cubeview 0.2.4.9002 (2025-07-31)
+# cubeview 0.3.0 (2025-08-01)
 
 #### ✨ features and improvements
 
   * support for SpatRaster
-
-#### 🐛 bug fixes
-
-#### 💬 documentation etc
-
-#### 🍬 miscellaneous
 
 
 # cubeview 0.2.4 (2025-04-12)
