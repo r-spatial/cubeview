@@ -146,16 +146,13 @@ function Hovmoeller(root, json, legend_filename) {
   if(legend_filename !== undefined) {
     var divLegend = document.createElement("div");
     divLegend.id = "divLegend";
-    var legend_image = new Image(leg_wdth, leg_hght);
-    legend_image.src = legend_filename;
-    divLegend.appendChild(legend_image);
     var divStatus = document.createElement("div");
     var labelX = document.createElement("span");
     var labelY = document.createElement("span");
     var labelZ = document.createElement("span");
     labelX.innerHTML = "&nbsp;X:&nbsp;";
-    labelY.innerHTML = "<br>&nbsp;Y:&nbsp;";
-    labelZ.innerHTML = "<br>&nbsp;Z:&nbsp;";
+    labelY.innerHTML = " | &nbsp;Y:&nbsp;";
+    labelZ.innerHTML = " | &nbsp;Z:&nbsp;";
     statusX = document.createElement("span");
     statusY = document.createElement("span");
     statusZ = document.createElement("span");
@@ -169,6 +166,9 @@ function Hovmoeller(root, json, legend_filename) {
     divStatus.appendChild(labelZ);
     divStatus.appendChild(statusY);
     divLegend.appendChild(divStatus);
+    var legend_image = new Image(leg_wdth, leg_hght);
+    legend_image.src = legend_filename;
+    divLegend.appendChild(legend_image);
     root.appendChild(divLegend);
   }
   root.appendChild(this.renderer.domElement);
