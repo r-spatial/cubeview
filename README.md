@@ -27,10 +27,10 @@ install.packages("cubeview")
 ## Example
 
 ``` r
-library(raster)
+library(terra)
 
 kili_data <- system.file("extdata", "kiliNDVI.tif", package = "cubeview")
-kiliNDVI <- stack(kili_data)
+kiliNDVI <- rast(kili_data)
 
 cubeview(kiliNDVI)
 ```
